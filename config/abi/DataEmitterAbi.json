@@ -1,0 +1,849 @@
+[
+    {
+      "inputs": [
+        {
+          "internalType": "address payable",
+          "name": "_fbgtController",
+          "type": "address"
+        },
+        {
+          "internalType": "address payable",
+          "name": "_trancheVaultFactory",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_user",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_trancheVault",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_strategyManager",
+          "type": "address"
+        }
+      ],
+      "name": "calculateUserTranchePosition",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "assetBalance",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "rewardBalance",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "fbgtController",
+      "outputs": [
+        {
+          "internalType": "contract FBGTController",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_trancheVault",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_strategyManager",
+          "type": "address"
+        }
+      ],
+      "name": "getCurrentAssetVaultRate",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address[]",
+          "name": "_trancheVaults",
+          "type": "address[]"
+        },
+        {
+          "internalType": "address[]",
+          "name": "_strategyManagers",
+          "type": "address[]"
+        }
+      ],
+      "name": "getCurrentAssetVaultRateArray",
+      "outputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "",
+          "type": "uint256[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_strategyManager",
+          "type": "address"
+        }
+      ],
+      "name": "getIndividualTrancheTvl",
+      "outputs": [
+        {
+          "internalType": "address[]",
+          "name": "",
+          "type": "address[]"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "",
+          "type": "uint256[]"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "",
+          "type": "uint256[]"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "",
+          "type": "uint256[]"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_strategy",
+          "type": "address"
+        }
+      ],
+      "name": "getStrategyBalance",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address[]",
+          "name": "_strategies",
+          "type": "address[]"
+        }
+      ],
+      "name": "getStrategyBalanceArray",
+      "outputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "",
+          "type": "uint256[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_strategy",
+          "type": "address"
+        }
+      ],
+      "name": "getStrategyTokenBalance",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address[]",
+          "name": "_strategies",
+          "type": "address[]"
+        }
+      ],
+      "name": "getStrategyTokenBalanceArray",
+      "outputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "",
+          "type": "uint256[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_trancheVault",
+          "type": "address"
+        }
+      ],
+      "name": "getTancheVaultTokenInformation",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        },
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_token",
+          "type": "address"
+        }
+      ],
+      "name": "getTokenDecimals",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_trancheVault",
+          "type": "address"
+        }
+      ],
+      "name": "getTrancheDetails",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address[]",
+          "name": "_trancheVaults",
+          "type": "address[]"
+        }
+      ],
+      "name": "getTrancheDetailsArray",
+      "outputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "",
+          "type": "uint256[]"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "",
+          "type": "uint256[]"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "",
+          "type": "uint256[]"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "",
+          "type": "uint256[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_strategyManager",
+          "type": "address"
+        }
+      ],
+      "name": "getTrancheStrategyInformation",
+      "outputs": [
+        {
+          "internalType": "address[]",
+          "name": "",
+          "type": "address[]"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "",
+          "type": "uint256[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address[]",
+          "name": "_strategyManagers",
+          "type": "address[]"
+        }
+      ],
+      "name": "getTrancheStrategyInformationArray",
+      "outputs": [
+        {
+          "internalType": "address[][]",
+          "name": "",
+          "type": "address[][]"
+        },
+        {
+          "internalType": "uint256[][]",
+          "name": "",
+          "type": "uint256[][]"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "",
+          "type": "uint256[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_trancheVault",
+          "type": "address"
+        }
+      ],
+      "name": "getTrancheThickness",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "totalActualYieldVaultInvestments",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "totalActualRewardVaultInvestments",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "totalActualYieldVaultInvestmentsAfterSlippage",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "totalActualRewardVaultInvestmentsAfterSlippage",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "currentYieldVaultInvestment",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "currentRewardVaultInvestment",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "currentStrategyBalance",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "currentYieldTokenSupply",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "currentRewardTokenSupply",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct DataEmitter.TrancheThicknessData",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address[]",
+          "name": "_trancheVaults",
+          "type": "address[]"
+        }
+      ],
+      "name": "getTrancheThicknessArray",
+      "outputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "",
+          "type": "uint256[]"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "",
+          "type": "uint256[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_trancheVault",
+          "type": "address"
+        }
+      ],
+      "name": "getTrancheThicknessLegacy",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_strategyManager",
+          "type": "address"
+        }
+      ],
+      "name": "getTrancheTvl",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address[]",
+          "name": "_strategyManagers",
+          "type": "address[]"
+        }
+      ],
+      "name": "getTrancheTvlArray",
+      "outputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "",
+          "type": "uint256[]"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_vaultManagerConfig",
+          "type": "address"
+        }
+      ],
+      "name": "getUserDepositLimit",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address[]",
+          "name": "_vaultManagerConfigs",
+          "type": "address[]"
+        }
+      ],
+      "name": "getUserDepositLimitArray",
+      "outputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "",
+          "type": "uint256[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_user",
+          "type": "address"
+        },
+        {
+          "internalType": "address[]",
+          "name": "_trancheVaults",
+          "type": "address[]"
+        },
+        {
+          "internalType": "address[]",
+          "name": "_strategyManagers",
+          "type": "address[]"
+        }
+      ],
+      "name": "getUserPosition",
+      "outputs": [
+        {
+          "internalType": "address[]",
+          "name": "",
+          "type": "address[]"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "",
+          "type": "uint256[]"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "",
+          "type": "uint256[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_user",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_yieldToken",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_rewardToken",
+          "type": "address"
+        }
+      ],
+      "name": "getUserTokenBalances",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "yieldTokenBalance",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "rewardTokenBalance",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_trancheVault",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_strategyManager",
+          "type": "address"
+        }
+      ],
+      "name": "getVaultRates",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "currentAssetVaultRate",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "currentRewardVaultRate",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_trancheVault",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_strategyManager",
+          "type": "address"
+        }
+      ],
+      "name": "getVaultRatesEpoch",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "currentAssetVaultRate",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "currentRewardVaultRate",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_vaultManagerConfig",
+          "type": "address"
+        }
+      ],
+      "name": "getVaultTvlLimit",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address[]",
+          "name": "_vaultManagerConfigs",
+          "type": "address[]"
+        }
+      ],
+      "name": "getVaultTvlLimitArray",
+      "outputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "",
+          "type": "uint256[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "trancheVaultFactory",
+      "outputs": [
+        {
+          "internalType": "contract TrancheVaultFactory",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ]
