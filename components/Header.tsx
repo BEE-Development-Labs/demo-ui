@@ -1,7 +1,7 @@
 'use client';
 
 import { ConnectButton } from '@rainbow-me/rainbowkit';
-import { useBalance, useAccount } from 'wagmi';
+import { useBalance, useAccount, useChainId, useChains } from 'wagmi';
 import { formatUnits } from 'viem';
 
 // Separate component for balance display to fix hooks issue
@@ -21,6 +21,9 @@ function BalanceDisplay({ address, symbol }: { address?: string; symbol?: string
 
 export default function Header() {
   const { address } = useAccount();
+  const chainId = useChainId();
+  const chains = useChains();
+  const currentChain = chains.find(c => c.id === chainId);
 
   return (
     <header className="flex items-center justify-between border-b border-gray-800 pb-4">
@@ -46,6 +49,9 @@ export default function Header() {
             chain &&
             (!authenticationStatus ||
               authenticationStatus === 'authenticated');
+          
+          // Get native currency symbol from wagmi chain or default to ETH
+          const nativeCurrencySymbol = currentChain?.nativeCurrency?.symbol || 'ETH';
 
           return (
             <div
@@ -119,7 +125,7 @@ export default function Header() {
                       className="px-4 py-2 bg-[#2a2a2a] hover:bg-[#3a3a3a] rounded-lg text-sm transition-colors"
                     >
                       {account.displayName}
-                      <BalanceDisplay address={account.address} symbol={chain.nativeCurrency?.symbol} />
+                      <BalanceDisplay address={account.address} symbol={nativeCurrencySymbol} />
                     </button>
                   </div>
                 );
