@@ -13,6 +13,7 @@ export default function DepositWithdrawPanel() {
   const [amount, setAmount] = useState('0');
   const { address, isConnected } = useAccount();
   const depositTriggeredRef = useRef(false);
+  const withdrawTriggeredRef = useRef(false);
   
   // Fetch USDC balance for deposit
   const { data: usdcBalance, isLoading: isBalanceLoading } = useBalance({
@@ -74,6 +75,22 @@ export default function DepositWithdrawPanel() {
     hash: depositHash,
   });
 
+  // Write contract for yield token approval
+  const { writeContract: approveYieldToken, data: approveYieldTokenHash, isPending: isApprovingYieldToken } = useWriteContract();
+
+  // Wait for yield token approval transaction
+  const { isLoading: isWaitingYieldTokenApproval, isSuccess: isYieldTokenApprovalSuccess } = useWaitForTransactionReceipt({
+    hash: approveYieldTokenHash,
+  });
+
+  // Write contract for withdraw
+  const { writeContract: withdraw, data: withdrawHash, isPending: isWithdrawing } = useWriteContract();
+
+  // Wait for withdraw transaction
+  const { isLoading: isWaitingWithdraw, isSuccess: isWithdrawSuccess } = useWaitForTransactionReceipt({
+    hash: withdrawHash,
+  });
+
   // Fetch yield token balance for withdraw
   const { data: yieldTokenBalance, isLoading: isYieldTokenBalanceLoading } = useBalance({
     address: address,
@@ -103,6 +120,31 @@ export default function DepositWithdrawPanel() {
     },
   });
 
+  // Check current yield token allowance for withdraw
+  const { data: currentYieldTokenAllowance, refetch: refetchYieldTokenAllowance } = useReadContract({
+    address: contracts.contracts.yieldToken as `0x${string}`,
+    abi: erc20Abi,
+    functionName: 'allowance',
+    args: address && isConnected ? [address, contracts.contracts.trancheVault as `0x${string}`] : undefined,
+    query: {
+      enabled: isConnected && activeTab === 'withdraw' && !!address && !!yieldTokenDecimals,
+    },
+  });
+
+  // Create refs for stable function references for withdraw
+  const withdrawRef = useRef<ReturnType<typeof useWriteContract>['writeContract'] | null>(null);
+  const refetchYieldTokenAllowanceRef = useRef<typeof refetchYieldTokenAllowance | null>(null);
+
+  // Store refetchYieldTokenAllowance in ref for stable reference
+  useEffect(() => {
+    refetchYieldTokenAllowanceRef.current = refetchYieldTokenAllowance;
+  }, [refetchYieldTokenAllowance]);
+
+  // Store withdraw function in ref for stable reference
+  useEffect(() => {
+    withdrawRef.current = withdraw;
+  }, [withdraw]);
+
   const handleMaxDeposit = () => {
     if (usdcBalance && typeof usdcDecimals === 'number') {
       const balance = formatUnits(usdcBalance.value, usdcDecimals);
@@ -123,6 +165,13 @@ export default function DepositWithdrawPanel() {
       depositTriggeredRef.current = false;
     }
   }, [approveHash]);
+
+  // Reset withdraw trigger ref when approval hash changes
+  useEffect(() => {
+    if (approveYieldTokenHash) {
+      withdrawTriggeredRef.current = false;
+    }
+  }, [approveYieldTokenHash]);
 
   // Refetch allowance after approval succeeds and trigger deposit
   useEffect(() => {
@@ -154,6 +203,35 @@ export default function DepositWithdrawPanel() {
     }
   }, [isApprovalSuccess, depositHash, isConnected, address, usdcDecimals, amount]);
 
+  // Refetch yield token allowance after approval succeeds and trigger withdraw
+  useEffect(() => {
+    if (isYieldTokenApprovalSuccess && !withdrawHash && !withdrawTriggeredRef.current && withdrawRef.current && refetchYieldTokenAllowanceRef.current) {
+      withdrawTriggeredRef.current = true;
+      // Small delay to ensure allowance is updated
+      const timer = setTimeout(() => {
+        if (refetchYieldTokenAllowanceRef.current) {
+          refetchYieldTokenAllowanceRef.current().then(() => {
+            // Auto-trigger withdraw after approval succeeds
+            if (isConnected && address && typeof yieldTokenDecimals === 'number' && amount && parseFloat(amount) > 0 && withdrawRef.current) {
+              const amountInWei = parseUnits(amount, yieldTokenDecimals);
+              const trancheVaultAddress = contracts.contracts.trancheVault as `0x${string}`;
+              
+              withdrawRef.current({
+                address: trancheVaultAddress,
+                abi: trancheVaultABI,
+                functionName: 'withdraw',
+                args: [BigInt(0), amountInWei],
+                gas: BigInt(2000000),
+              });
+            }
+          });
+        }
+      }, 1000);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [isYieldTokenApprovalSuccess, withdrawHash, isConnected, address, yieldTokenDecimals, amount]);
+
   const handleDeposit = async () => {
     if (!isConnected || !address || typeof usdcDecimals !== 'number' || !amount || parseFloat(amount) <= 0) {
       return;
@@ -179,6 +257,36 @@ export default function DepositWithdrawPanel() {
         abi: trancheVaultABI,
         functionName: 'deposit',
         args: [BigInt(0), usdcAddress, amountInWei],
+        gas: BigInt(2000000),
+      });
+    }
+  };
+
+  const handleWithdraw = async () => {
+    if (!isConnected || !address || typeof yieldTokenDecimals !== 'number' || !amount || parseFloat(amount) <= 0) {
+      return;
+    }
+
+    const amountInWei = parseUnits(amount, yieldTokenDecimals);
+    const trancheVaultAddress = contracts.contracts.trancheVault as `0x${string}`;
+    const yieldTokenAddress = contracts.contracts.yieldToken as `0x${string}`;
+
+    // Check if approval is needed
+    if (!currentYieldTokenAllowance || (typeof currentYieldTokenAllowance === 'bigint' && currentYieldTokenAllowance < amountInWei)) {
+      // Approve yield token
+      approveYieldToken({
+        address: yieldTokenAddress,
+        abi: erc20Abi,
+        functionName: 'approve',
+        args: [trancheVaultAddress, amountInWei],
+      });
+    } else {
+      // Already approved, proceed with withdraw
+      withdraw({
+        address: trancheVaultAddress,
+        abi: trancheVaultABI,
+        functionName: 'withdraw',
+        args: [BigInt(0), amountInWei],
         gas: BigInt(2000000),
       });
     }
@@ -346,8 +454,33 @@ export default function DepositWithdrawPanel() {
             You will withdraw <span className="text-white font-medium">{amount} {yieldTokenSymbol || ''}</span>
           </div>
           
-          <button className="w-full py-4 bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 rounded-lg font-semibold transition-all">
-            Click to proceed
+          <button 
+            onClick={handleWithdraw}
+            disabled={
+              !isConnected || 
+              !amount || 
+              parseFloat(amount) <= 0 || 
+              isApprovingYieldToken ||
+              isWaitingYieldTokenApproval ||
+              isWithdrawing ||
+              isWaitingWithdraw ||
+              !yieldTokenDecimals ||
+              !yieldTokenBalance ||
+              (yieldTokenBalance && typeof yieldTokenDecimals === 'number' && parseFloat(amount) > parseFloat(formatUnits(yieldTokenBalance.value, yieldTokenDecimals)))
+            }
+            className="w-full py-4 bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 rounded-lg font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {isWithdrawing || isWaitingWithdraw
+              ? 'Withdrawing...'
+              : isApprovingYieldToken || isWaitingYieldTokenApproval
+              ? 'Approving...'
+              : isWithdrawSuccess
+              ? 'Withdraw Successful!'
+              : isYieldTokenApprovalSuccess
+              ? 'Withdrawing...'
+              : currentYieldTokenAllowance && parseFloat(amount) > 0 && typeof yieldTokenDecimals === 'number' && typeof currentYieldTokenAllowance === 'bigint' && currentYieldTokenAllowance >= parseUnits(amount, yieldTokenDecimals)
+              ? 'Click to proceed'
+              : 'Approve & Withdraw'}
           </button>
         </div>
       )}

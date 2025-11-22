@@ -28,7 +28,7 @@ export default function Header() {
   return (
     <header className="flex items-center justify-between border-b border-gray-800 pb-4">
       <div className="flex items-center gap-8">
-        <a href="#" className="text-white hover:text-gray-300 transition-colors font-medium">
+        <a href="#" className="text-white hover:text-gray-300 transition-colors text-xl font-bold">
           Farms
         </a>
       </div>

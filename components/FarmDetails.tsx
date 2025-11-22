@@ -2,6 +2,7 @@
 
 import { useReadContract } from 'wagmi';
 import { formatUnits } from 'viem';
+import Image from 'next/image';
 import contracts from '@/config/contracts.json';
 import dataEmitterABI from '@/config/abi/DataEmitterAbi.json';
 
@@ -28,9 +29,9 @@ export default function FarmDetails() {
     }
   }
   
-  // Format the value - scale down using 6 decimals (not wei)
+  // Format the value - scale down using 18 decimals
   const formattedValue = currentStrategyBalance
-    ? parseFloat(formatUnits(currentStrategyBalance, 6))
+    ? parseFloat(formatUnits(currentStrategyBalance, 18))
     : null;
   
   const isLoading = isLoadingThickness;
@@ -38,15 +39,20 @@ export default function FarmDetails() {
   return (
     <div className="bg-[#1a1a1a] rounded-lg p-6 border border-gray-800">
       <div className="flex items-center gap-3 mb-4">
-        <h1 className="text-4xl font-bold">Yield Farm</h1>
-        <span className="text-2xl">🐻</span>
+        <Image 
+          src="/usdc-logo.png" 
+          alt="USDC" 
+          width={40}
+          height={40}
+          className="w-10 h-10"
+        />
+        <h1 className="text-4xl font-bold">USDC Farm</h1>
       </div>
       
       <div className="flex flex-wrap gap-2 mb-6">
-        <span className="px-3 py-1 bg-[#2a2a2a] rounded-full text-xs">Single-strategy</span>
-        <span className="px-3 py-1 bg-[#2a2a2a] rounded-full text-xs">Auto-compounding</span>
-        <span className="px-3 py-1 bg-[#2a2a2a] rounded-full text-xs">Low-risk</span>
-        <span className="px-3 py-1 bg-[#2a2a2a] rounded-full text-xs">Points-tranched</span>
+        <span className="px-3 py-1 bg-[#2a2a2a] rounded-full text-xs">multi-strategy</span>
+        <span className="px-3 py-1 bg-[#2a2a2a] rounded-full text-xs">auto-compounding</span>
+        <span className="px-3 py-1 bg-[#2a2a2a] rounded-full text-xs">low-risk</span>
       </div>
       
       <div className="mb-6">
@@ -56,17 +62,12 @@ export default function FarmDetails() {
       </div>
       
       <div className="mb-6">
-        <h3 className="text-lg font-semibold mb-2">Tailored for beras who like to keep it simple!</h3>
+        <h3 className="text-lg font-semibold mb-2">Tailored for users who like to keep it simple!</h3>
         <ul className="list-disc list-inside space-y-1 text-gray-300 text-sm ml-2">
           <li>Generates yields in the same tokens you deposit, grow what you sow</li>
           <li>APR dynamically scales based on the relative size of this tranche</li>
           <li>Ideal for users seeking to compound their core asset positions</li>
         </ul>
-      </div>
-      
-      <div className="bg-[#2a2a2a] rounded-lg p-4 mb-6">
-        <div className="text-sm text-gray-400 mb-1">YIELD MULTIPLIER</div>
-        <div className="text-2xl font-bold">1.26x</div>
       </div>
       
       <div className="space-y-3 text-sm">

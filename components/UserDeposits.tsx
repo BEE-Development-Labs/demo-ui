@@ -35,9 +35,9 @@ export default function UserDeposits() {
     }
   }
 
-  // Format the value with 6 decimals
+  // Format the value with 18 decimals
   const formattedValue = assetBalance
-    ? parseFloat(formatUnits(assetBalance, 6))
+    ? parseFloat(formatUnits(assetBalance, 18))
     : null;
 
   return (
